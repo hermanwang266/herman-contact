@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 替换为你的真实品牌/姓名 -->
     <title>Herman Sourcing - China Supply Chain Partner</title>
-    <!-- 引入 Tailwind CSS (CDN 方式，方便快速测试和部署) -->
+    <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 增加一个简单的渐变背景动画以提升质感 */
         .bg-gradient-animate {
             background: linear-gradient(-45deg, #f8fafc, #e2e8f0, #cbd5e1);
             background-size: 400% 400%;
@@ -19,35 +18,66 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        /* 隐藏不同语言的区块，通过 JS 控制显示 */
         .lang-content { display: none; }
         .lang-content.active { display: block; }
+        
+        /* 语言切换菜单动画 */
+        #lang-menu {
+            transition: all 0.2s ease-in-out;
+            transform-origin: top right;
+        }
+        .menu-hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        .menu-visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col items-center py-10 px-4 bg-gradient-animate">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col items-center py-8 px-4 bg-gradient-animate relative">
 
-    <!-- 主容器，限制最大宽度以适配移动端阅读体验 -->
-    <main class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex-grow flex flex-col justify-between">
+    <!-- 语言切换器 (右上角悬浮) -->
+    <div class="absolute top-4 right-4 z-50">
+        <button id="lang-btn" class="flex items-center space-x-1 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm border border-slate-200 text-sm font-medium text-slate-700 hover:bg-white transition-colors">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span id="current-lang-label">EN</span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+
+        <!-- 下拉菜单 -->
+        <div id="lang-menu" class="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden menu-hidden">
+            <ul class="py-1 text-sm text-slate-700">
+                <li><button onclick="switchLanguage('en')" class="block w-full text-left px-4 py-2 hover:bg-slate-50">🇺🇸 English</button></li>
+                <li><button onclick="switchLanguage('es')" class="block w-full text-left px-4 py-2 hover:bg-slate-50">🇪🇸 Español</button></li>
+                <li><button onclick="switchLanguage('fr')" class="block w-full text-left px-4 py-2 hover:bg-slate-50">🇫🇷 Français</button></li>
+                <li><button onclick="switchLanguage('ar')" class="block w-full text-left px-4 py-2 hover:bg-slate-50">🇸🇦 العربية</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <main class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex-grow flex flex-col justify-between mt-8 relative z-10">
         
-        <!-- 顶部信息区 -->
         <div class="px-6 pt-10 pb-6 text-center">
-            <!-- 头像占位符 (请替换为你自己的专业工作照 URL) -->
+            <!-- 头像照 -->
             <div class="mx-auto w-24 h-24 rounded-full border-4 border-slate-50 overflow-hidden shadow-sm mb-4">
-                 <!-- 建议使用你在工厂验货或与产品合影的高清照片 -->
                 <img src="https://ui-avatars.com/api/?name=Herman+W&background=0D8ABC&color=fff&size=128" alt="Herman Wang" class="w-full h-full object-cover">
             </div>
             
             <!-- 多语言内容切换区 -->
             <div id="content-container">
-                <!-- English Content (Default) -->
+                
+                <!-- 1. English Content -->
                 <div class="lang-content" data-lang="en">
                     <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Herman Wang</h1>
                     <p class="text-sm font-medium text-blue-600 mb-6 uppercase tracking-wider">Your China Sourcing Partner</p>
-                    
                     <p class="text-slate-600 text-base leading-relaxed mb-8">
                         Specializing in all-category product sourcing from China. We handle factory audits, transparent negotiation, QC, and global logistics so you can focus on scaling your brand.
                     </p>
-                    
                     <ul class="text-sm text-slate-600 space-y-3 mb-8 text-left inline-block">
                         <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Direct Factory Pricing</li>
                         <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Strict Quality Control (QC)</li>
@@ -55,87 +85,155 @@
                     </ul>
                 </div>
 
-                <!-- Spanish Content (Español) -->
+                <!-- 2. Spanish Content -->
                 <div class="lang-content" data-lang="es">
                     <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Herman Wang</h1>
                     <p class="text-sm font-medium text-blue-600 mb-6 uppercase tracking-wider">Su Socio de Compras en China</p>
-                    
                     <p class="text-slate-600 text-base leading-relaxed mb-8">
-                        Especializados en la compra de productos de todas las categorías desde China. Gestionamos auditorías de fábricas, negociación transparente, control de calidad y logística global para que pueda escalar su marca.
+                        Especializados en compras de todas las categorías desde China. Gestionamos auditorías de fábricas, negociación transparente, control de calidad y logística global para que pueda escalar su marca.
                     </p>
-                    
                     <ul class="text-sm text-slate-600 space-y-3 mb-8 text-left inline-block">
                         <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Precios Directos de Fábrica</li>
-                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Estricto Control de Calidad (QC)</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Control de Calidad Estricto (QC)</li>
                         <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Logística Integral</li>
                     </ul>
                 </div>
-                 <!-- 可以在此继续添加法语、俄语等区块，只需增加 data-lang 属性即可 -->
+
+                <!-- 3. French Content -->
+                <div class="lang-content" data-lang="fr">
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Herman Wang</h1>
+                    <p class="text-sm font-medium text-blue-600 mb-6 uppercase tracking-wider">Votre Partenaire d'Achat en Chine</p>
+                    <p class="text-slate-600 text-base leading-relaxed mb-8">
+                        Spécialisé dans l'approvisionnement toutes catégories depuis la Chine. Nous gérons les audits d'usines, la négociation, le contrôle qualité et la logistique mondiale.
+                    </p>
+                    <ul class="text-sm text-slate-600 space-y-3 mb-8 text-left inline-block">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Prix Directs d'Usine</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Contrôle Qualité Strict (QC)</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Logistique de bout en bout</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Arabic Content (RTL) -->
+                <div class="lang-content" data-lang="ar" dir="rtl">
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">هيرمان وانغ</h1>
+                    <p class="text-sm font-medium text-blue-600 mb-6 uppercase tracking-wider">شريكك في التوريد من الصين</p>
+                    <p class="text-slate-600 text-base leading-relaxed mb-8">
+                        متخصصون في توريد جميع فئات المنتجات من الصين. نتعامل مع تدقيق المصانع، التفاوض، فحص الجودة، والخدمات اللوجستية العالمية لتمكينك من توسيع علامتك التجارية.
+                    </p>
+                    <ul class="text-sm text-slate-600 space-y-3 mb-8 text-right inline-block">
+                        <li class="flex items-center justify-end flex-row-reverse"><svg class="w-5 h-5 text-green-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> أسعار المصنع مباشرة</li>
+                        <li class="flex items-center justify-end flex-row-reverse"><svg class="w-5 h-5 text-green-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> رقابة صارمة على الجودة (QC)</li>
+                        <li class="flex items-center justify-end flex-row-reverse"><svg class="w-5 h-5 text-green-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> شحن وتخليص شامل</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
 
-        <!-- 底部呼叫操作区 (CTA) -->
+        <!-- 底部呼叫操作区 -->
         <div class="bg-slate-100 p-6 text-center border-t border-slate-200 mt-auto">
             <p class="text-xs text-slate-500 mb-4 uppercase font-semibold tracking-wide" id="cta-helper-text">Drop your sourcing needs below</p>
             
-            <!-- WhatsApp 按钮 (通过 JS 动态更新 href) -->
             <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center space-x-2 bg-[#25D366] hover:bg-[#1DA851] text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 active:scale-95">
-                <!-- WhatsApp SVG Icon -->
                 <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
                 </svg>
                 <span class="text-lg" id="btn-text">Chat for Real Factory Quotes</span>
             </a>
             
-            <p class="text-[10px] text-slate-400 mt-3">Typically replies within 2 hours • Secure chat via WhatsApp</p>
+            <p class="text-[10px] text-slate-400 mt-3" id="footer-note">Typically replies within 2 hours • Secure chat via WhatsApp</p>
         </div>
     </main>
 
-    <!-- JavaScript 逻辑：检测语言并动态生成带预设文本的 WhatsApp 链接 -->
+    <!-- JavaScript 逻辑 -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 核心配置：在此修改你的 WhatsApp 号码
-            // 确保使用纯数字国际格式，不要加 + 号或空格
-            const WHATSAPP_NUMBER = '8615001838848';
+        const WHATSAPP_NUMBER = '8615001838848';
+        let currentLang = 'en';
 
-            // 多语言配置字典
-            const langConfig = {
-                'en': {
-                    btnText: 'Chat for Real Factory Quotes',
-                    helperText: 'Drop your sourcing needs below',
-                    // 这是客户点开 WhatsApp 时，输入框里已经填好的文字
-                    presetMessage: "Hi Herman, I am looking for a reliable sourcing partner in China. I need a quote for [Product Name]. Here are some initial details:"
-                },
-                'es': {
-                    btnText: 'Chat para Cotizaciones Directas',
-                    helperText: 'Envíe sus necesidades de compra',
-                    presetMessage: "Hola Herman, busco un agente de compras confiable en China. Necesito una cotización para [Nombre del Producto]. Aquí hay algunos detalles:"
-                }
-                // 可在此处按需扩展法语('fr')、俄语('ru')等配置
-            };
+        // 字典数据：包含按钮、引导语、页脚和 WhatsApp 预设信息
+        const langConfig = {
+            'en': {
+                label: 'EN',
+                btnText: 'Chat for Real Factory Quotes',
+                helperText: 'Drop your sourcing needs below',
+                footerNote: 'Typically replies within 2 hours • Secure chat via WhatsApp',
+                presetMessage: "Hi Herman, I am looking for a reliable sourcing partner in China. I need a quote for [Product Name]. Here are some initial details:"
+            },
+            'es': {
+                label: 'ES',
+                btnText: 'Chat para Cotizaciones Directas',
+                helperText: 'Envíe sus necesidades de compra',
+                footerNote: 'Responde generalmente en 2 horas • Chat seguro por WhatsApp',
+                presetMessage: "Hola Herman, busco un agente de compras confiable en China. Necesito una cotización para [Nombre del Producto]. Aquí hay algunos detalles:"
+            },
+            'fr': {
+                label: 'FR',
+                btnText: 'Discuter pour des Devis d\'Usine',
+                helperText: 'Envoyez vos besoins d\'achat ci-dessous',
+                footerNote: 'Répond généralement en 2 heures • Chat sécurisé via WhatsApp',
+                presetMessage: "Bonjour Herman, je recherche un partenaire d'achat fiable en Chine. J'ai besoin d'un devis pour [Nom du produit]. Voici quelques détails:"
+            },
+            'ar': {
+                label: 'AR',
+                btnText: 'تحدث للحصول على أسعار المصنع',
+                helperText: 'أرسل احتياجات التوريد الخاصة بك أدناه',
+                footerNote: 'يرد عادة خلال ساعتين • محادثة آمنة عبر الواتساب',
+                presetMessage: "مرحباً هيرمان، أبحث عن شريك توريد موثوق في الصين. أحتاج إلى تسعير لـ [اسم المنتج]. إليك بعض التفاصيل الأولية:"
+            }
+        };
 
-            // 获取用户浏览器语言的前两个字符（例如从 "en-US" 获取 "en"，从 "es-ES" 获取 "es"）
-            const userLang = navigator.language.slice(0, 2).toLowerCase();
+        // 切换语言的核心函数
+        function switchLanguage(langCode) {
+            currentLang = langCode;
             
-            // 确定最终使用的语言：如果字典里有对应配置就用，没有就回退到英语 ('en')
-            const activeLang = langConfig[userLang] ? userLang : 'en';
-
-            // 1. 切换页面内容显示
+            // 1. 更新顶部按钮标签
+            document.getElementById('current-lang-label').textContent = langConfig[langCode].label;
+            
+            // 2. 切换主内容区块
             document.querySelectorAll('.lang-content').forEach(el => {
-                if (el.getAttribute('data-lang') === activeLang) {
+                if (el.getAttribute('data-lang') === langCode) {
                     el.classList.add('active');
                 } else {
                     el.classList.remove('active');
                 }
             });
 
-            // 2. 更新底部按钮文案
-            document.getElementById('btn-text').textContent = langConfig[activeLang].btnText;
-            document.getElementById('cta-helper-text').textContent = langConfig[activeLang].helperText;
+            // 3. 更新操作区文案
+            document.getElementById('btn-text').textContent = langConfig[langCode].btnText;
+            document.getElementById('cta-helper-text').textContent = langConfig[langCode].helperText;
+            document.getElementById('footer-note').textContent = langConfig[langCode].footerNote;
 
-            // 3. 构建并更新动态的 WhatsApp URL (利用 encodeURIComponent 处理预设文本)
-            const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(langConfig[activeLang].presetMessage)}`;
+            // 4. 更新 WhatsApp 链接预设信息
+            const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(langConfig[langCode].presetMessage)}`;
             document.getElementById('whatsapp-btn').href = waUrl;
+
+            // 隐藏菜单
+            closeMenu();
+        }
+
+        // 菜单交互逻辑
+        const langBtn = document.getElementById('lang-btn');
+        const langMenu = document.getElementById('lang-menu');
+
+        function toggleMenu(e) {
+            e.stopPropagation();
+            langMenu.classList.toggle('menu-hidden');
+            langMenu.classList.toggle('menu-visible');
+        }
+
+        function closeMenu() {
+            langMenu.classList.add('menu-hidden');
+            langMenu.classList.remove('menu-visible');
+        }
+
+        langBtn.addEventListener('click', toggleMenu);
+        document.addEventListener('click', closeMenu);
+
+        // 初始化：探测浏览器语言并自动切换
+        document.addEventListener('DOMContentLoaded', () => {
+            const browserLang = navigator.language.slice(0, 2).toLowerCase();
+            const initLang = langConfig[browserLang] ? browserLang : 'en';
+            switchLanguage(initLang);
         });
     </script>
 </body>
